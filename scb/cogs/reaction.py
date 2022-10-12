@@ -52,7 +52,7 @@ class Reaction(commands.Cog):
         emoji: The emoji you want to send
         """
 
-        emojis = [emoji_ for emoji_ in interaction.guild.emojis if emoji_.name == emoji]
+        emojis = [emote for emote in interaction.guild.emojis if emote.name == emoji]  # type: ignore
 
         if not emojis:
             return await interaction.send("Could not find the given emoji", ephemeral=True)
@@ -65,7 +65,7 @@ class Reaction(commands.Cog):
         interaction: disnake.ApplicationCommandInteraction,
         user_input: str
     ) -> List[str]:
-        emojis = [emoji.name for emoji in interaction.guild.emojis]
+        emojis = [emote.name for emote in interaction.guild.emojis]  # type: ignore
 
         return [emoji for emoji in emojis if user_input.lower() in emoji.lower()]
 

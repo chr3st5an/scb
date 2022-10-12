@@ -37,7 +37,6 @@ if __name__ == "__main__":
     if sys.version_info.major < 3 or sys.version_info.minor < 8:
         raise Exception("^python3.9 required")
 
-
     from scb import SCBBot
 
     SCBBot().run()

@@ -36,7 +36,7 @@ from config import config
 
 
 with open("data/emojis.json") as f:
-    EMOJIS: Dict[str, str] = json.load(f)
+    EMOJIS: Dict[str, int] = json.load(f)
 
 HERE = os.path.dirname(__file__)
 
@@ -55,7 +55,7 @@ class SCBBot(commands.InteractionBot):
     def run(self) -> None:
         return super().run(config.token)
 
-    def get_emoji(self, id_: Union[int, str], /) -> Optional[disnake.Emoji]:
+    def get_emoji(self, emoji_id: Union[int, str], /) -> Optional[disnake.Emoji]:
         """Returns an emoji with the given ID.
 
         Parameters
@@ -70,10 +70,10 @@ class SCBBot(commands.InteractionBot):
             The custom emoji or `None` if not found
         """
 
-        if isinstance(id_, str):
-            id_ = EMOJIS.get(id_)
+        if isinstance(emoji_id, str):
+            return super().get_emoji(EMOJIS.get(emoji_id, 0))
 
-        return super().get_emoji(id_)
+        return super().get_emoji(emoji_id)
 
     async def status_loop(self) -> NoReturn:
         """Constantly display two different statuses"""

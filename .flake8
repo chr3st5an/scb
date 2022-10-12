@@ -1,0 +1,6 @@
+[flake8]
+count = True
+doctest = True
+indent-size = 4
+max-line-length = 120
+max-doc-length = 100

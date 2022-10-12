@@ -24,7 +24,7 @@ SOFTWARE.
 
 __all__ = ("Profile",)
 
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 from datetime import datetime
 
 from disnake.ext import commands
@@ -53,7 +53,7 @@ class Profile(commands.Cog):
         member: Show information about this member
         """
 
-        avatar_url: Optional[str] = member.avatar and member.avatar.url
+        avatar_url = member.display_avatar.url
 
         # Slice out "@everyone" and only list the 3 top roles
         roles = "\n".join(f"<@&{role.id}>" for role in member.roles[1:4])
@@ -62,12 +62,12 @@ class Profile(commands.Cog):
             title=member.display_name,
             description=f"Here's {member.mention}'s profile",
             color=self.bot.color,
-            timestamp=datetime.now()
+            timestamp=datetime.now(),
         )
         embed.set_thumbnail(url=avatar_url)
         embed.add_field(
             name="Dates",
-            value=f"Created: {member.created_at.date()}\nJoined: {member.joined_at.date()}",
+            value=f"Created: {member.created_at.date()}",
         )
         embed.add_field(
             name="Top 3 Roles",

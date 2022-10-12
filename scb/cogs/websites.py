@@ -38,12 +38,10 @@ if TYPE_CHECKING:
 MOODLE_COURSE_BASE_URL = "https://moodle.uni-due.de/course/view.php?id="
 
 with open("data/uni-links.json") as f:
-    WEBSITES = commands.option_enum(
-        json.load(f)
-    )
+    websites = commands.option_enum(json.load(f))
 
 with open("data/moodle-courses.json") as f:
-    COURSES = commands.option_enum(
+    courses = commands.option_enum(
         {k: MOODLE_COURSE_BASE_URL + v for k, v in json.load(f).items()}
     )
 
@@ -67,16 +65,18 @@ class Websites(commands.Cog):
             url=link
         )
         emoji = self.bot.get_emoji(
-            secrets.choice([
-                "internetexplorer",
-                "wumpus_gift",
-                "www",
-            ])
+            secrets.choice(
+                [
+                    "internetexplorer",
+                    "wumpus_gift",
+                    "www",
+                ]
+            )
         )
 
         await interaction.send(
             content=f"Here you go! {emoji}",
-            components=action_row,
+            components=action_row,  # type: ignore
             ephemeral=True,
         )
 
@@ -84,7 +84,7 @@ class Websites(commands.Cog):
     async def websites(
         self,
         interaction: disnake.ApplicationCommandInteraction,
-        website: WEBSITES
+        website: websites  # type: ignore
     ) -> None:
         """Search for a uni related webpage
 
@@ -99,7 +99,7 @@ class Websites(commands.Cog):
     async def moodle(
         self,
         interaction: disnake.ApplicationCommandInteraction,
-        course: COURSES
+        course: courses  # type: ignore
     ) -> None:
         """Search a Moodle course
 

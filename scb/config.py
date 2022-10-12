@@ -32,8 +32,8 @@ from dotenv import load_dotenv
 
 @dataclass(frozen=True)
 class ClientConfig(object):
-    token: str  # The bots token
-    owner: int  # The ID of the owner of the bot
+    token: str  # The bot's token
+    owner: int  # The user ID of the owner of the bot
     color: int  # The default color in embeds, etc.
 
 
@@ -41,7 +41,7 @@ load_dotenv()
 
 
 config = ClientConfig(
-    token=os.getenv("TOKEN"),
-    owner=int(os.getenv("OWNER")),
-    color=int(os.getenv("COLOR"), base=16)
+    token=os.getenv("TOKEN"),  # type: ignore
+    owner=int(os.getenv("OWNER")),  # type: ignore
+    color=int(os.getenv("COLOR"), base=16),  # type: ignore
 )
