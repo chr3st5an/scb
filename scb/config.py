@@ -32,9 +32,31 @@ from dotenv import load_dotenv
 
 @dataclass(frozen=True)
 class ClientConfig(object):
-    token: str  # The bot's token
-    owner: int  # The user ID of the owner of the bot
-    color: int  # The default color in embeds, etc.
+    """Represents the configs for the bot
+
+    .. versionadded:: 1.0.0
+
+    Attributes
+    ----------
+    token : :class:`str`
+        The token of the bot
+    owner : :class:`int`
+        The user ID of the owner
+    color : :class:`int`
+        The color value of embeds, etc.
+    emoji_guild : :class:`int`
+        An ID of a guild from which
+        the bot retrieves its emojis.
+        The bot has to be in this guild.
+
+
+    .. note:: :class:`ClientConfig` is frozen
+    """
+
+    token: str
+    owner: int
+    color: int
+    emoji_guild: int
 
 
 load_dotenv()
@@ -44,4 +66,5 @@ config = ClientConfig(
     token=os.getenv("TOKEN"),  # type: ignore
     owner=int(os.getenv("OWNER")),  # type: ignore
     color=int(os.getenv("COLOR"), base=16),  # type: ignore
+    emoji_guild=int(os.getenv("EMOJI_GUILD"))  # type: ignore
 )

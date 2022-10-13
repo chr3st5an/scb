@@ -24,9 +24,8 @@ SOFTWARE.
 
 __all__ = ("SCBBot",)
 
-from typing import Dict, Union, NoReturn, Optional
+from typing import Union, NoReturn, Optional
 import os
-import json
 import asyncio
 
 from disnake.ext import commands
@@ -35,18 +34,15 @@ import disnake
 from scb.config import config
 
 
-with open("data/emojis.json") as f:
-    EMOJIS: Dict[str, int] = json.load(f)
-
 HERE = os.path.dirname(__file__)
 
 
 class SCBBot(commands.InteractionBot):
-    def __init__(self, **kwargs):
+    def __init__(self, **options):
         super().__init__(
             owner_id=config.owner,
             max_messages=None,
-            **kwargs
+            **options
         )
         self.color = disnake.Colour(config.color)
 
@@ -63,7 +59,8 @@ class SCBBot(commands.InteractionBot):
         ----------
         id_ : :class:`Union[int, str]`
             The id to search for, or the name
-            of an emoji found in `data/emojis.json`
+            of an emoji found in the provided
+            emoji guild
 
         Returns
         -------
@@ -72,12 +69,20 @@ class SCBBot(commands.InteractionBot):
         """
 
         if isinstance(emoji_id, str):
-            return super().get_emoji(EMOJIS.get(emoji_id, 0))
+            guild = self.get_guild(config.emoji_guild)
+
+            if guild is None:
+                return None
+
+            try:
+                return [emoji for emoji in guild.emojis if emoji.name == emoji_id][0]
+            except IndexError:
+                return None
 
         return super().get_emoji(emoji_id)
 
     async def status_loop(self) -> NoReturn:
-        """Constantly display two different statuses"""
+        """Constantly display two different statuses sequentially"""
 
         while True:
             await self.change_presence(
@@ -90,7 +95,7 @@ class SCBBot(commands.InteractionBot):
 
             await self.change_presence(
                 activity=disnake.Activity(
-                    name="with Christians mind",
+                    name=f"with {len(self.slash_commands)} slash commands",
                     type=disnake.ActivityType.playing
                 )
             )
@@ -100,3 +105,16 @@ class SCBBot(commands.InteractionBot):
         print(f"Logged in as {self.user}")
 
         asyncio.create_task(self.status_loop())
+
+    async def on_slash_command_error(
+        self,
+        interaction: disnake.ApplicationCommandInteraction,
+        exception: commands.CommandError
+    ) -> None:
+        if isinstance(exception, commands.NoPrivateMessage):
+            return await interaction.send(
+                "For this command to work, the bot needs to be on this server",
+                ephemeral=True
+            )
+
+        await interaction.send("An error occurred", ephemeral=True)
