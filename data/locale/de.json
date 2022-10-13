@@ -1,0 +1,20 @@
+{
+    "ABOUT_NAME": "info",
+    "ABOUT_DESCRIPTION": "Generische Informationen über den Bot",
+    "PROFILE_NAME": "profil",
+    "PROFILE_DESCRIPTION": "Zeige Information über das Profil eines Mitglieds an",
+    "PROFILE_MEMBER_NAME": "mitglied",
+    "PROFILE_MEMBER_DESCRIPTION": "Zeige Informationen über diese Mitglied an",
+    "EMOJI_NAME": "emoji",
+    "EMOJI_DESCRIPTION": "Sende das ausgewählte Emoji",
+    "EMOJI_EMOJI_NAME": "emoji",
+    "EMOJI_EMOJI_DESCRIPTION": "Das Emoji, das du senden willst",
+    "WEBSITES_NAME": "webseiten",
+    "WEBSITES_DESCRIPTION": "Suche nach einer Uni relevanten Webseite",
+    "WEBSITES_WEBSITE_NAME": "webseite",
+    "WEBSITES_WEBSITE_DESCRIPTION": "Die Webseite, nach der du suchst",
+    "MOODLE_NAME": "moodle",
+    "MOODLE_DESCRIPTION": "Suche nach einem Moodle Kurs",
+    "MOODLE_COURSE_NAME": "kurs",
+    "MOODLE_COURSE_DESCRIPTION": "Der Moodle Kurs, nach dem du suchst"
+}

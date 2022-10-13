@@ -51,6 +51,7 @@ class SCBBot(commands.InteractionBot):
         self.color = disnake.Colour(config.color)
 
         self.load_extensions(f"{HERE}/cogs")
+        self.i18n.load("data/locale/")
 
     def run(self) -> None:
         return super().run(config.token)

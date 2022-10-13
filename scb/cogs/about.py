@@ -46,7 +46,7 @@ class About(commands.Cog):
         self,
         interaction: disnake.ApplicationCommandInteraction
     ) -> None:
-        """Generic information about the bot"""
+        """Generic information about the bot {{ ABOUT }}"""
 
         avatar = self.bot.user.avatar and self.bot.user.avatar.url
         app_info = await self.bot.application_info()
@@ -72,7 +72,7 @@ class About(commands.Cog):
         )
         embed.add_field(
             name="About",
-            value=app_info.description,
+            value=app_info.description or "-",
             inline=False
         )
 

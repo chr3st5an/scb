@@ -47,11 +47,11 @@ class Profile(commands.Cog):
         interaction: disnake.ApplicationCommandInteraction,
         member: disnake.Member
     ) -> None:
-        """Show a members profile information
+        """Show a members profile information {{ PROFILE }}
 
         Parameters
         ----------
-        member: Show information about this member
+        member: Show information about this member  {{ PROFILE_MEMBER }}
         """
 
         avatar_url = member.display_avatar.url

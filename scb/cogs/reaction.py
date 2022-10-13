@@ -46,11 +46,11 @@ class Reaction(commands.Cog):
         interaction: disnake.ApplicationCommandInteraction,
         emoji: str
     ) -> None:
-        """Send the given emoji
+        """Send the given emoji  {{ EMOJI }}
 
         Parameters
         ----------
-        emoji: The emoji you want to send
+        emoji: The emoji you want to send  {{ EMOJI_EMOJI }}
         """
 
         emojis = [emote for emote in interaction.guild.emojis if emote.name == emoji]  # type: ignore

@@ -87,11 +87,11 @@ class Websites(commands.Cog):
         interaction: disnake.ApplicationCommandInteraction,
         website: websites  # type: ignore
     ) -> None:
-        """Search for a uni related webpage
+        """Search for a uni related webpage {{ WEBSITES }}
 
         Parameters
         ----------
-        website: The website you are looking for
+        website: The website you are looking for {{ WEBSITES_WEBSITE }}
         """
 
         await self.send_link(interaction, website)
@@ -102,11 +102,11 @@ class Websites(commands.Cog):
         interaction: disnake.ApplicationCommandInteraction,
         course: courses  # type: ignore
     ) -> None:
-        """Search a Moodle course
+        """Search a Moodle course {{ MOODLE }}
 
         Parameters
         ----------
-        course: The Moodle course you are looking for
+        course: The Moodle course you are looking for {{ MOODLE_COURSE }}
         """
 
         await self.send_link(interaction, course)
