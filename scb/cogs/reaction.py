@@ -24,10 +24,11 @@ SOFTWARE.
 
 __all__ = ("Reaction",)
 
-from typing import List, TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 from disnake.ext import commands
 import disnake
+
 
 if TYPE_CHECKING:
     from scb import SCBBot

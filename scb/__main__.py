@@ -23,8 +23,8 @@ SOFTWARE.
 """
 
 from pathlib import Path
-import sys
 import os
+import sys
 
 
 PROJECT_DIR = str(Path(__file__).parents[1])

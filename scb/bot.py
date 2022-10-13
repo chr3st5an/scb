@@ -24,15 +24,15 @@ SOFTWARE.
 
 __all__ = ("SCBBot",)
 
-from typing import Dict, NoReturn, Union, Optional
-import asyncio
-import json
+from typing import Dict, Union, NoReturn, Optional
 import os
+import json
+import asyncio
 
 from disnake.ext import commands
 import disnake
 
-from config import config
+from scb.config import config
 
 
 with open("data/emojis.json") as f:

@@ -25,11 +25,12 @@ SOFTWARE.
 __all__ = ("Websites",)
 
 from typing import TYPE_CHECKING
-import secrets
 import json
+import secrets
 
 from disnake.ext import commands
 import disnake
+
 
 if TYPE_CHECKING:
     from scb import SCBBot
