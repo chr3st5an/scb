@@ -41,6 +41,7 @@ class Reaction(commands.Cog):
         self.bot = bot
 
     @commands.slash_command(name="emoji", dm_permission=False)
+    @commands.guild_only()
     async def emoji_picker(
         self,
         interaction: disnake.ApplicationCommandInteraction,
@@ -53,12 +54,12 @@ class Reaction(commands.Cog):
         emoji: The emoji you want to send  {{ EMOJI_EMOJI }}
         """
 
-        emojis = [emote for emote in interaction.guild.emojis if emote.name == emoji]  # type: ignore
-
-        if not emojis:
+        try:
+            emote = [emote for emote in interaction.guild.emojis if emote.name == emoji][0]  # type: ignore
+        except IndexError:
             return await interaction.send("Could not find the given emoji", ephemeral=True)
 
-        await interaction.send(f"{emojis[0]!s}")
+        await interaction.send(f"{emote}")
 
     @emoji_picker.autocomplete("emoji")
     async def autocomplete_emojis(
@@ -66,6 +67,9 @@ class Reaction(commands.Cog):
         interaction: disnake.ApplicationCommandInteraction,
         user_input: str
     ) -> List[str]:
+        if interaction.guild is None:
+            return []
+
         emojis = [emote.name for emote in interaction.guild.emojis]  # type: ignore
 
         return [emoji for emoji in emojis if user_input.lower() in emoji.lower()]

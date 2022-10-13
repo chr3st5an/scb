@@ -42,6 +42,7 @@ class Profile(commands.Cog):
         self.bot = bot
 
     @commands.slash_command(dm_permission=False)
+    @commands.guild_only()
     async def profile(
         self,
         interaction: disnake.ApplicationCommandInteraction,
@@ -57,7 +58,7 @@ class Profile(commands.Cog):
         avatar_url = member.display_avatar.url
 
         # Slice out "@everyone" and only list the 3 top roles
-        roles = "\n".join(f"<@&{role.id}>" for role in member.roles[1:4])
+        roles = "\n".join(f"<@&{role.id}>" for role in member.roles[1:4]) or "-"
 
         embed = disnake.Embed(
             title=member.display_name,
@@ -65,7 +66,9 @@ class Profile(commands.Cog):
             color=self.bot.color,
             timestamp=datetime.now(),
         )
-        embed.set_thumbnail(url=avatar_url)
+        embed.set_thumbnail(
+            url=avatar_url
+        )
         embed.add_field(
             name="Dates",
             value=f"Created: {member.created_at.date()}",

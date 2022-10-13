@@ -34,8 +34,10 @@ os.chdir(PROJECT_DIR)
 
 
 if __name__ == "__main__":
-    if sys.version_info.major < 3 or sys.version_info.minor < 8:
-        raise Exception("^python3.9 required")
+    major, minor = sys.version_info[:2]
+
+    if major < 3 or minor < 8:
+        raise Exception("^py39 required")
 
     from scb import SCBBot
 
