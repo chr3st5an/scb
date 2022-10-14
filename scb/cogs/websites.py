@@ -97,7 +97,8 @@ class Websites(commands.Cog):
 
         Parameters
         ----------
-        website: The website you are looking for {{ WEBSITES_WEBSITE }}
+        website : :class:`str`
+            The website you are looking for {{ WEBSITES_WEBSITE }}
         """
 
         await self.send_link(interaction, website)
@@ -112,7 +113,8 @@ class Websites(commands.Cog):
 
         Parameters
         ----------
-        course: The Moodle course you are looking for {{ MOODLE_COURSE }}
+        course : :class:`str`
+            The Moodle course you are looking for {{ MOODLE_COURSE }}
         """
 
         await self.send_link(interaction, course)

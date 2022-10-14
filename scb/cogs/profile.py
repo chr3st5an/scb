@@ -52,7 +52,8 @@ class Profile(commands.Cog):
 
         Parameters
         ----------
-        member: Show information about this member  {{ PROFILE_MEMBER }}
+        member : :class:`disnake.Member`
+            Show information about this member  {{ PROFILE_MEMBER }}
         """
 
         avatar_url = member.display_avatar.url

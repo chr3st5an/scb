@@ -51,7 +51,8 @@ class Reaction(commands.Cog):
 
         Parameters
         ----------
-        emoji: The emoji you want to send  {{ EMOJI_EMOJI }}
+        emoji : :class:`str`
+            The emoji you want to send  {{ EMOJI_EMOJI }}
         """
 
         try:
