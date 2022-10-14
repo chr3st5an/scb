@@ -24,7 +24,7 @@ SOFTWARE.
 
 __all__ = ("Websites",)
 
-from typing import TYPE_CHECKING
+from typing import Dict, TYPE_CHECKING
 import json
 import secrets
 
@@ -39,11 +39,17 @@ if TYPE_CHECKING:
 MOODLE_COURSE_BASE_URL = "https://moodle.uni-due.de/course/view.php?id="
 
 with open("data/uni-links.json") as f:
-    websites = commands.option_enum(json.load(f))
+    data: Dict[str, str] = json.load(f)
+
+    websites = commands.option_enum(
+       dict(sorted(data.items()))
+    )
 
 with open("data/moodle-courses.json") as f:
+    data: Dict[str, str] = json.load(f)
+
     courses = commands.option_enum(
-        {k: MOODLE_COURSE_BASE_URL + v for k, v in json.load(f).items()}
+        {k: MOODLE_COURSE_BASE_URL + v for k, v in data.items()}
     )
 
 
@@ -85,7 +91,7 @@ class Websites(commands.Cog):
     async def websites(
         self,
         interaction: disnake.ApplicationCommandInteraction,
-        website: websites  # type: ignore
+        website: "websites"
     ) -> None:
         """Search for a uni related webpage {{ WEBSITES }}
 
@@ -100,7 +106,7 @@ class Websites(commands.Cog):
     async def moodle(
         self,
         interaction: disnake.ApplicationCommandInteraction,
-        course: courses  # type: ignore
+        course: "courses"
     ) -> None:
         """Search a Moodle course {{ MOODLE }}
 
