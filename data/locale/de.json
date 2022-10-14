@@ -16,5 +16,7 @@
     "MOODLE_NAME": "moodle",
     "MOODLE_DESCRIPTION": "Suche nach einem Moodle Kurs",
     "MOODLE_COURSE_NAME": "kurs",
-    "MOODLE_COURSE_DESCRIPTION": "Der Moodle Kurs, nach dem du suchst"
+    "MOODLE_COURSE_DESCRIPTION": "Der Moodle Kurs, nach dem du suchst",
+    "EXMATRICULATE_NAME": "exmatrikulieren",
+    "EXMATRICULATE_DESCRIPTION": "Lasse dich exmatrikulieren"
 }
