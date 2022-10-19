@@ -104,7 +104,7 @@ class SCBBot(commands.InteractionBot):
     async def on_ready(self) -> None:
         print(f"Logged in as {self.user}")
 
-        asyncio.create_task(self.status_loop())
+        await asyncio.create_task(self.status_loop())
 
     async def on_slash_command_error(
         self,
