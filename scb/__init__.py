@@ -13,4 +13,4 @@ __author__ = "chr3st5an"
 __version__ = "1.0.0"
 __license__ = "MIT"
 
-from bot import SCBBot  # noqa: F401
+from bot import SCBBot
