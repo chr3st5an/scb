@@ -42,7 +42,7 @@ with open("data/uni-links.json") as f:
     data: Dict[str, str] = json.load(f)
 
     websites = commands.option_enum(
-       dict(sorted(data.items()))
+        dict(sorted(data.items()))
     )
 
 with open("data/moodle-courses.json") as f:
