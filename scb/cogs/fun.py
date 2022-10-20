@@ -24,10 +24,14 @@ SOFTWARE.
 
 __all__ = ("Fun",)
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Dict, List
+from datetime import datetime
+import secrets
+import re
 
-from disnake.ext import commands
+from disnake.ext import commands, tasks
 import disnake
+import aiohttp
 
 
 if TYPE_CHECKING:
@@ -35,18 +39,40 @@ if TYPE_CHECKING:
 
 
 class Fun(commands.Cog):
-    __slots__ = ("bot",)
+    """Collection of commands that can be categorized as funny"""
+
+    __slots__ = ("bot", "memes")
 
     def __init__(self, bot: "SCBBot"):
         self.bot = bot
+        #             Category     URL
+        #                 |         |
+        self.memes: Dict[str, List[str]] = {}
+
+        self.fetch_memes.start()
+
+    @tasks.loop(hours=6)
+    async def fetch_memes(self) -> None:
+        """Update the objects :attr:`memes` attribute every 6 hrs"""
+
+        search_url = "https://tenor.com/search/{query}-gifs"
+        gif_regex = r'<img.*?src="(https://media\..*?\.gif)'
+
+        async with aiohttp.ClientSession() as session:
+            async with session.get(search_url.format(query="pigeon")) as response:
+                text = await response.text()
+
+                self.memes["pigeon"] = []
+
+                for url in re.findall(gif_regex, text):
+                    self.memes["pigeon"].append(url)
 
     @commands.slash_command()
     async def exmatriculate(
         self,
         interaction: disnake.ApplicationCommandInteraction
     ) -> None:
-        """Wanna exmatriculate yourself? {{ EXMATRICULATE }}
-        """
+        """Wanna exmatriculate yourself? {{ EXMATRICULATE }}"""
 
         view = disnake.ui.View()
         button = disnake.ui.Button(
@@ -55,13 +81,13 @@ class Fun(commands.Cog):
         )
 
         async def button_callback(button_interaction: disnake.MessageInteraction) -> None:
+            message = "EXMATRIKULIERT IHN / SIE!!"
             button.disabled = True
 
             if button_interaction.author == interaction.author:
-                await button_interaction.send("He seriously wants to leave :(")
-            else:
-                await button_interaction.send("EXMATRIKULIERT IHN / SIE!!")
+                message = "He seriously wants to leave :("
 
+            await button_interaction.send(message)
             await interaction.edit_original_message(view=view)
 
         button.callback = button_callback
@@ -71,6 +97,34 @@ class Fun(commands.Cog):
             content=f"*{interaction.author.name}* wants to exmatriculate themselves",
             view=view
         )
+
+    @commands.slash_command()
+    async def pigeon(
+        self,
+        interaction: disnake.ApplicationCommandInteraction
+    ) -> None:
+        """Who doesn't like pigeons but Anna {{ PIGEON }}"""
+
+        if not self.memes.get("pigeon"):
+            return await interaction.send("No pigeons today :(", ephemeral=True)
+
+        url = secrets.choice(self.memes["pigeon"])
+
+        embed = disnake.Embed(
+            title="PIGEOOONsss",
+            type="gifv",
+            color=self.bot.color,
+            timestamp=datetime.now()
+        )
+        embed.set_image(url=url)
+        embed.set_footer(text=str(interaction.author))
+
+        button = disnake.ui.Button(
+            label="Source",
+            url=url
+        )
+
+        return await interaction.send(embed=embed, components=button)
 
 
 def setup(bot: "SCBBot") -> None:

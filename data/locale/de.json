@@ -18,5 +18,7 @@
     "MOODLE_COURSE_NAME": "kurs",
     "MOODLE_COURSE_DESCRIPTION": "Der Moodle Kurs, nach dem du suchst",
     "EXMATRICULATE_NAME": "exmatrikulieren",
-    "EXMATRICULATE_DESCRIPTION": "Lasse dich exmatrikulieren"
+    "EXMATRICULATE_DESCRIPTION": "Lasse dich exmatrikulieren",
+    "PIGEON_NAME": "taube",
+    "PIGEON_DESCRIPTION": "Jeder liebt Tauben, außer Anna"
 }
