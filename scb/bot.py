@@ -24,33 +24,52 @@ SOFTWARE.
 
 __all__ = ("SCBBot",)
 
-from typing import Union, NoReturn, Optional
+from typing import Any, Union, Optional
 import os
-import asyncio
 
 from disnake.ext import commands
 import disnake
-
-from scb.config import config
 
 
 HERE = os.path.dirname(__file__)
 
 
 class SCBBot(commands.InteractionBot):
-    def __init__(self, **options):
+    def __init__(self, *, color: int, emoji_guild: int, **options: Any):
+        """Create a SCBBot
+
+        Parameters
+        ----------
+        color : :class:`int`
+            The default (hex) color value for embeds, etc.
+        emoji_guild : :class:`int`
+            The ID of the guild from which the bot fetches
+            its emojis
+        **options : :class:`Any`
+            Giveable options for :class:`disnake.InteractionBot`
+        """
+
         super().__init__(
-            owner_id=config.owner,
             max_messages=None,
             **options
         )
-        self.color = disnake.Colour(config.color)
+        self.__color = disnake.Colour(color)
+        self.__emoji_guild = emoji_guild
 
         self.load_extensions(f"{HERE}/cogs")
         self.i18n.load("data/locale/")
 
-    def run(self) -> None:
-        return super().run(config.token)
+    @property
+    def color(self) -> disnake.Colour:
+        """:class:`disnake.Colour` : The default color used for embeds, etc."""
+
+        return self.__color
+
+    @property
+    def emoji_guild(self) -> int:
+        """:class:`int` : The ID of the guild providing emojis for this bot"""
+
+        return self.__emoji_guild
 
     def get_emoji(self, emoji_id: Union[int, str], /) -> Optional[disnake.Emoji]:
         """Returns an emoji with the given ID.
@@ -69,7 +88,7 @@ class SCBBot(commands.InteractionBot):
         """
 
         if isinstance(emoji_id, str):
-            guild = self.get_guild(config.emoji_guild)
+            guild = self.get_guild(self.emoji_guild)
 
             if guild is None:
                 return None
@@ -80,31 +99,6 @@ class SCBBot(commands.InteractionBot):
                 return None
 
         return super().get_emoji(emoji_id)
-
-    async def status_loop(self) -> NoReturn:
-        """Constantly display two different statuses sequentially"""
-
-        while True:
-            await self.change_presence(
-                activity=disnake.Activity(
-                    name=f"{len(self.guilds)} guilds",
-                    type=disnake.ActivityType.watching
-                )
-            )
-            await asyncio.sleep(60)
-
-            await self.change_presence(
-                activity=disnake.Activity(
-                    name=f"with {len(self.slash_commands)} slash commands",
-                    type=disnake.ActivityType.playing
-                )
-            )
-            await asyncio.sleep(60)
-
-    async def on_ready(self) -> None:
-        print(f"Logged in as {self.user}")
-
-        await asyncio.create_task(self.status_loop())
 
     async def on_slash_command_error(
         self,

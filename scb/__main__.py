@@ -26,11 +26,32 @@ from pathlib import Path
 import os
 import sys
 
+from dotenv import load_dotenv
+
 
 PROJECT_DIR = str(Path(__file__).parents[1])
 
 sys.path.insert(0, PROJECT_DIR)
 os.chdir(PROJECT_DIR)
+
+
+def main() -> None:
+    load_dotenv()
+
+    token = os.getenv("token")
+
+    # The default color for embeds and such
+    color = int(os.getenv("color", 0xf1f0ff), base=16)  # type: ignore
+
+    # The ID of the guild from which the bot fetches its emojis
+    emoji_guild = int(os.getenv("emoji_guild", 0))  # type: ignore
+
+    from scb import SCBBot
+
+    SCBBot(
+        color=color,
+        emoji_guild=emoji_guild
+    ).run(token)
 
 
 if __name__ == "__main__":
@@ -39,6 +60,4 @@ if __name__ == "__main__":
     if major < 3 or minor < 8:
         raise Exception("^py39 required")
 
-    from scb import SCBBot
-
-    SCBBot().run()
+    main()
