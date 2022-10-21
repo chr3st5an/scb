@@ -57,7 +57,7 @@ def main() -> None:
 if __name__ == "__main__":
     major, minor = sys.version_info[:2]
 
-    if major < 3 or minor < 8:
+    if major < 3 or minor < 9:
         raise Exception("^py39 required")
 
     main()
