@@ -27,6 +27,7 @@ __all__ = ("Fun",)
 from typing import TYPE_CHECKING, Dict, List
 from datetime import datetime
 import re
+import asyncio
 import secrets
 
 from disnake.ext import tasks, commands
@@ -47,7 +48,9 @@ class Fun(commands.Cog):
         self.bot = bot
         #             Category     URL
         #                 |         |
-        self.memes: Dict[str, List[str]] = {}
+        self.memes: Dict[str, List[str]] = {
+            "pigeon": []
+        }
 
         self.fetch_memes.start()
 
@@ -56,16 +59,57 @@ class Fun(commands.Cog):
         """Update the objects :attr:`memes` attribute every 6 hrs"""
 
         search_url = "https://tenor.com/search/{query}-gifs"
-        gif_regex = r'<img.*?src="(https://media\..*?\.gif)'
 
         async with aiohttp.ClientSession() as session:
-            async with session.get(search_url.format(query="pigeon")) as response:
-                text = await response.text()
+            await asyncio.gather(*[
+                self.fetch_meme_category(
+                    session,
+                    search_url.format(query=category),
+                    category
+                ) for category in self.memes
+            ])
 
-                self.memes["pigeon"] = []
+    async def fetch_meme_category(
+        self,
+        session: aiohttp.ClientSession,
+        search_url: str,
+        store_as: str
+    ) -> None:
+        """Fetch meme URLs
 
-                for url in re.findall(gif_regex, text):
-                    self.memes["pigeon"].append(url)
+        Make a request with the given session
+        to the search url and evaluate the
+        response. Afterwards, store all URLs
+        in the objects :attr:`memes` attribute
+
+        Parameters
+        ----------
+        session : :class:`aiohttp.ClientSession`
+            The session used to make the request
+        search_url : :class:`str`
+            The URL to make a request to
+        store_as : :class:`str`
+            Store a list of URLs in the objects
+            :attr:`memes` attribute under the given
+            key name
+        """
+
+        url_regex = r'src="(https://media\..*?\.gif)"'
+
+        async with session.get(search_url) as response:
+            text = await response.text()
+
+            try:
+                # Clear previous cached memes
+                self.memes[store_as].clear()
+            except KeyError:
+                self.memes[store_as] = []
+
+            for url in re.findall(url_regex, text):
+                self.memes[store_as].append(url)
+
+            response.close()
+            await response.wait_for_close()
 
     @commands.slash_command()
     async def exmatriculate(
