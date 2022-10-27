@@ -20,5 +20,9 @@
     "EXMATRICULATE_NAME": "exmatrikulieren",
     "EXMATRICULATE_DESCRIPTION": "Lasse dich exmatrikulieren",
     "PIGEON_NAME": "taube",
-    "PIGEON_DESCRIPTION": "Jeder liebt Tauben, außer Anna"
+    "PIGEON_DESCRIPTION": "Jeder liebt Tauben, außer Anna",
+    "HUG_NAME": "umarmung",
+    "HUG_DESCRIPTION": "Umarme jemanden, den du magst <3",
+    "HUG_MEMBER_NAME": "mitglied",
+    "HUG_MEMBER_DESCRIPTION": "Das Mitglied, das du umarmen willst"
 }

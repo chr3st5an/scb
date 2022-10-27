@@ -24,7 +24,7 @@ SOFTWARE.
 
 __all__ = ("Fun",)
 
-from typing import TYPE_CHECKING, Dict, List
+from typing import TYPE_CHECKING, Dict, List, Optional
 from datetime import datetime
 import re
 import asyncio
@@ -169,6 +169,31 @@ class Fun(commands.Cog):
         )
 
         return await interaction.send(embed=embed, components=button)
+
+    @commands.slash_command(name="hug")
+    async def rick_roll(
+        self,
+        interaction: disnake.ApplicationCommandInteraction,
+        member: Optional[disnake.User] = commands.Param(None)
+    ) -> None:
+        """Send someone a hug <3 {{ HUG }}
+
+        Parameters
+        ----------
+        member : :class:`member`
+            The member you wanna hug {{ HUG_MEMBER }}
+        """
+
+        embed = disnake.Embed(
+            type="gifv",
+            color=self.bot.color,
+            timestamp=datetime.now()
+        )
+        embed.set_image(
+            url="https://media.tenor.com/pj2SpULBC7kAAAAd/loading-trolled.gif"
+        )
+
+        return await interaction.send(embed=embed, ephemeral=True)
 
 
 def setup(bot: "SCBBot") -> None:
