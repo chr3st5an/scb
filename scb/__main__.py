@@ -41,7 +41,7 @@ def main() -> None:
     token = os.getenv("token")
 
     # The default color for embeds and such
-    color = int(os.getenv("color", 0xf1f0ff), base=16)  # type: ignore
+    color = int(os.getenv("color", "f1f0ff"), base=16)  # type: ignore
 
     # The ID of the guild from which the bot fetches its emojis
     emoji_guild = int(os.getenv("emoji_guild", 0))  # type: ignore
